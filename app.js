@@ -385,7 +385,7 @@ function initialise() {
     setTimeout(function(){
     	if (gameState.levelScores[0]) {
     		console.log("it was played before");
-    		startTutorial();
+    		showLevelsMenu();
     		// startNewLevelButton();
     	} else {
     		console.log("it was not played before");
