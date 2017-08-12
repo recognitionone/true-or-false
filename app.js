@@ -119,13 +119,22 @@ function createColorName() {
 
 	var lastGameIndex = nameColorName.indexOf(gameState.lastQuestion[gameState.thisQuestionNumber - 1]);
     if (gameState.thisQuestionNumber > 0) {
+
+        console.log("this question number: " + gameState.thisQuestionNumber);
+        console.log(nameColorName);
+        console.log("color I'm supposed to push: " + myFirstColor);
+        console.log("last question number: " + gameState.lastQuestion);
+        console.log("index of this color: " + nameColorName.indexOf(gameState.lastQuestion[gameState.thisQuestionNumber - 1]));
+
         nameColorName.splice(lastGameIndex, 1);
         nameColorNumber.splice(lastGameIndex, 1);
     }
-    gameState.lastQuestion.push(myFirstColor);
+    
 
     n = Math.floor(Math.random() * nameColorName.length); 
     myFirstColor = nameColorName[n];
+
+    gameState.lastQuestion.push(myFirstColor);
 
     if (gameState.levelStarted) {
 
@@ -215,7 +224,6 @@ function createColorName() {
 }
 
 function createBoard(parent, i, fontcolor) {
-	console.log("createBoard is working");
     var newEquationDiv;
     newEquationDiv = document.createElement("div");
     newEquationDiv.id = "gameBoardDiv";
