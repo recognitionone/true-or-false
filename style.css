@@ -100,6 +100,7 @@ ul, li {
 		margin: 0;
 		padding: 0;
 		list-style-type: none;
+		font-size: small;
 	}
 
 #Grid li {
@@ -129,12 +130,12 @@ ul, li {
 #levelContent {
 	content: normal !important;
 	position: absolute;
-	height: 90%;
-	width: 90%;
-	padding: 5%;
+	height: 70%;
+	width: 100%;
+	padding-top: 30%;
 	color: #fff;
 	font-family: "Montserrat", sans-serif;
-	font-size:20%;
+	/*font-size:20%;*/
 }
 
 #Grid li div:before {
