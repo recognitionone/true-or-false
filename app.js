@@ -120,12 +120,6 @@ function createColorName() {
 	var lastGameIndex = nameColorName.indexOf(gameState.lastQuestion[gameState.thisQuestionNumber - 1]);
     if (gameState.thisQuestionNumber > 0) {
 
-        console.log("this question number: " + gameState.thisQuestionNumber);
-        console.log(nameColorName);
-        console.log("color I'm supposed to push: " + myFirstColor);
-        console.log("last question number: " + gameState.lastQuestion);
-        console.log("index of this color: " + nameColorName.indexOf(gameState.lastQuestion[gameState.thisQuestionNumber - 1]));
-
         nameColorName.splice(lastGameIndex, 1);
         nameColorNumber.splice(lastGameIndex, 1);
     }
@@ -539,7 +533,6 @@ function startTutorial() {
         var roll = wrongcColorNumber.splice(n, 1);
         var o = Math.floor(Math.random() * wrongcColorNumber.length); 
         myColor = wrongcColorNumber[o];
-        console.log(wrongcColorNumber);
         createBoard (gameBoard, text, myColor); 
 
 		falseButton.onclick = function() {
@@ -769,9 +762,13 @@ function clearBoard(el) {
 
 
 function gamePlay() {
+    console.log("my level number: " + gameState.myLevel)
+    console.log("scores: " + gameState.levelBestScores);
+    console.log("current score: " + gameState.levelScores[gameState.myLevel]);
 
     trueButton.onclick = function() {
         if(gameState.levelStarted) {
+
             // trueButton.style.backgroundColor = "#4f9b94";
             // setTimeout(function() {
             //             trueButton.style.backgroundColor = "#e91e63";
@@ -784,6 +781,7 @@ function gamePlay() {
                 startNewLevel();
             } else {
                 if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
+                        
                         gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
                 }
                 gameState.timeScore[gameState.myLevel] = gameState.myTime;
@@ -795,13 +793,10 @@ function gamePlay() {
 
     falseButton.onclick = function() {
         if(gameState.levelStarted) {
-            // falseButton.style.backgroundColor = "#4f9b94";
-            // setTimeout(function() {
-            //             falseButton.style.backgroundColor = "#80ccc4"; 
-            // }, 200)
 
             if (gameState.isEquationTrue) {
                 if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
+                    console.log("my score: " + gameState.levelBestScores[gameState.myLevel]);
                     gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
                 }
                 gameState.timeScore[gameState.myLevel] = gameState.myTime;
