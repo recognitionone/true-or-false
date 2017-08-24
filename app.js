@@ -224,15 +224,12 @@ function createBoard(parent, i, fontcolor) {
     newEquationDiv.appendChild(document.createTextNode(i));
     parent.appendChild(newEquationDiv);
     newEquationDiv.style.color = fontcolor;
-    // newEquationDiv.onclick = function() {
-        
-    // };
 }
 
 function createEquation() {
     var num;
     var equationColor;
-    var equationColorNumber = colors.colorNumber.slice();//["#ffd400", "#54b633", "#5882fe", "#cc3333", "#fff"];
+    var equationColorNumber = colors.colorNumber.slice();
     				  
     if (gameState.levelStarted) {
 
@@ -386,11 +383,8 @@ function initialise() {
      
     setTimeout(function(){
     	if (gameState.levelScores[0]) {
-    		// console.log("it was played befoe");
     		showLevelsMenu();
-    		// startNewLevelButton();
     	} else {
-    		// console.log("it was not played before");
     		startTutorial();
     	}
         
@@ -423,7 +417,6 @@ function createTimer() {
                     if (gameState.myTime == 0) {
 
                         saveMyData();
-                        console.log("timer ended: " + gameState.levelBestScores[gameState.myLevel]);
                         gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
                         levelFailed();
                         clearInterval(gameState.timeId);
@@ -485,10 +478,8 @@ function startTutorial() {
 	    tutorialText.appendChild(document.createTextNode("if this text on the board is right click True"));
 	    gameBoard.appendChild(tutorialText);
 
-        // let's roll some right answers
-        var colorName = colors.colorName; //["yellow",   "green",  "blue",   "red", "white"]; 
-        // var colorNumber = ["#ffd400", "#54b633", "#5882fe", "#cc3333", "#fff"];
-        var colorNumber = colors.colorNumber; //["#ffab00", "#64dd17", "#0091ea", "#d50000", "#fff"];
+        var colorName = colors.colorName; 
+        var colorNumber = colors.colorNumber; 
 
         var n = Math.floor(Math.random() * colorName.length); 
         var myFirstColor = colorName[n];
@@ -500,7 +491,6 @@ function startTutorial() {
 			howManyGoodAnswers++;
 			if (howManyGoodAnswers >= 4) {
 				clearBoard(gameBoard);
-				console.log("more than 5 good answers");
 				startNewLevelButton();
 			} else {
 				
@@ -582,6 +572,7 @@ function startNewLevelButton() {
     clearBoard(gameBoard);
     loadMyData();
 
+    levelDiv.innerHTML = gameState.myLevel + 1;
     gameState.score = 0;
     scoreDiv.innerHTML = gameState.score;
     gameState.levelScores[gameState.myLevel] = 0;
@@ -592,16 +583,6 @@ function startNewLevelButton() {
     gameState.lastQuestion = [];
     
     var text;
-
-    // if (gameState.myLevel < 2) {
-    //     text = "Now you have 3 seconds for every answer";  
-    // } else if (gameState.myLevel >= 2 && gameState.myLevel < 7) {
-    //     text = "Now you have 2 seconds for every answer";  
-    // } else if (gameState.myLevel >= 7 && gameState.myLevel < 11) {
-    //     text = "Now you have 1.5 second for every answer";  
-    // } else {
-    //     text = "Now you have 1 second for every answer";  
-    // }
 
     if (gameState.myLevel < 2) {
 
@@ -668,7 +649,6 @@ function showLevelsMenu() {
 }
 
 function drawLevelsMenu() {
-    console.log("drawLevelsMenu: " + gameState.levelBestScores[gameState.myLevel]);
     clearBoard(levelBoard);
     var numberOfButtonHere = 0;  
 
@@ -747,7 +727,7 @@ function levelFailed() {
 
     if (gameState.levelScores[gameState.myLevel] >=4) {
         gameState.myLevel++;
-        levelDiv.innerHTML = gameState.myLevel;
+        levelDiv.innerHTML = gameState.myLevel + 1;
         retryButton.appendChild(document.createTextNode("NEXT"));
     } else {
         retryButton.appendChild(document.createTextNode("RETRY"));
@@ -820,7 +800,6 @@ function gamePlay() {
 
             if (gameState.isEquationTrue) {
                 if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
-                    // console.log("my score: " + gameState.levelBestScores[gameState.myLevel]);
                     gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
                 } else {
                     gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
