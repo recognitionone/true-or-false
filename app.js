@@ -327,17 +327,17 @@ var levels = [
                 {creators: [                createColorName             ], timeMode: 'crazy', colorMode: 'zen'},
                 {creators: [                                 createShape], timeMode: 'crazy', shapeMode: 'zen'},
                 {creators: [createEquation, createColorName,            ], timeMode: 'crazy', equationMode: 'normal', colorMode: 'zen'},
-                {creators: [                createColorName, createShape], timeMode: 'supercrazy', shapeMode: 'normal', colorMode: 'crazy'},
-                {creators: [createEquation,                  createShape], timeMode: 'supercrazy', equationMode: 'crazy', shapeMode: 'crazy'},
-                {creators: [createEquation, createColorName, createShape], timeMode: 'supercrazy', equationMode: 'crazy', shapeMode: 'crazy', colorMode: 'normal'},
-
-                {creators: [createEquation                              ], timeMode: 'crazy', equationMode: 'zen'},
-                {creators: [                createColorName             ], timeMode: 'crazy', colorMode: 'zen'},
-                {creators: [                                 createShape], timeMode: 'crazy', shapeMode: 'zen'},
-                {creators: [createEquation, createColorName,            ], timeMode: 'crazy', equationMode: 'normal', colorMode: 'zen'},
                 {creators: [                createColorName, createShape], timeMode: 'crazy', shapeMode: 'normal', colorMode: 'crazy'},
                 {creators: [createEquation,                  createShape], timeMode: 'crazy', equationMode: 'crazy', shapeMode: 'crazy'},
-                {creators: [createEquation, createColorName, createShape], timeMode: 'crazy', equationMode: 'crazy', shapeMode: 'crazy', colorMode: 'normal'},                                                                  
+                {creators: [createEquation, createColorName, createShape], timeMode: 'crazy', equationMode: 'crazy', shapeMode: 'crazy', colorMode: 'normal'},
+
+                {creators: [createEquation                              ], timeMode: 'supercrazy', equationMode: 'zen'},
+                {creators: [                createColorName             ], timeMode: 'supercrazy', colorMode: 'zen'},
+                {creators: [                                 createShape], timeMode: 'supercrazy', shapeMode: 'zen'},
+                {creators: [createEquation, createColorName,            ], timeMode: 'turbo', equationMode: 'normal', colorMode: 'zen'},
+                {creators: [                createColorName, createShape], timeMode: 'turbo', shapeMode: 'normal', colorMode: 'crazy'},
+                {creators: [createEquation,                  createShape], timeMode: 'turbo', equationMode: 'crazy', shapeMode: 'crazy'},
+                {creators: [createEquation, createColorName, createShape], timeMode: 'turbo', equationMode: 'crazy', shapeMode: 'crazy', colorMode: 'normal'},                                                                  
 ];
 
 var colors = {
@@ -386,11 +386,11 @@ function initialise() {
      
     setTimeout(function(){
     	if (gameState.levelScores[0]) {
-    		console.log("it was played before");
+    		// console.log("it was played befoe");
     		showLevelsMenu();
     		// startNewLevelButton();
     	} else {
-    		console.log("it was not played before");
+    		// console.log("it was not played before");
     		startTutorial();
     	}
         
@@ -421,6 +421,10 @@ function createTimer() {
                     gameState.myTime--;
                     timeDiv.innerHTML = gameState.myTime;
                     if (gameState.myTime == 0) {
+
+                        saveMyData();
+                        console.log("timer ended: " + gameState.levelBestScores[gameState.myLevel]);
+                        gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
                         levelFailed();
                         clearInterval(gameState.timeId);
                     }
@@ -429,14 +433,22 @@ function createTimer() {
     if (gameState.levelStarted) {
 
         switch (levels[gameState.myLevel].timeMode) {
+            
+
+            case 'zen':
+                gameState.myTime = 30;
+                timeDiv.innerHTML = gameState.myTime;
+                gameState.timeId = setInterval(frame, 100);            
+                break;
+
             case 'normal':
                 gameState.myTime = 20;
                 timeDiv.innerHTML = gameState.myTime;
                 gameState.timeId = setInterval(frame, 100);
                 break;
 
-            case 'zen':
-                gameState.myTime = 30;
+            case 'crazy':
+                gameState.myTime = 15;
                 timeDiv.innerHTML = gameState.myTime;
                 gameState.timeId = setInterval(frame, 100);            
                 break;
@@ -447,8 +459,8 @@ function createTimer() {
                 gameState.timeId = setInterval(frame, 100);            
                 break;
 
-            case 'crazy':
-                gameState.myTime = 15;
+            case 'turbo':
+                gameState.myTime = 7;
                 timeDiv.innerHTML = gameState.myTime;
                 gameState.timeId = setInterval(frame, 100);            
                 break;
@@ -568,10 +580,12 @@ function startTutorial() {
 
 function startNewLevelButton() {
     clearBoard(gameBoard);
+    loadMyData();
+
     gameState.score = 0;
     scoreDiv.innerHTML = gameState.score;
     gameState.levelScores[gameState.myLevel] = 0;
-    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel];
+    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
     gameState.timeScore[gameState.myLevel] = 0;
 
     gameState.thisQuestionNumber = 0;
@@ -579,14 +593,44 @@ function startNewLevelButton() {
     
     var text;
 
+    // if (gameState.myLevel < 2) {
+    //     text = "Now you have 3 seconds for every answer";  
+    // } else if (gameState.myLevel >= 2 && gameState.myLevel < 7) {
+    //     text = "Now you have 2 seconds for every answer";  
+    // } else if (gameState.myLevel >= 7 && gameState.myLevel < 11) {
+    //     text = "Now you have 1.5 second for every answer";  
+    // } else {
+    //     text = "Now you have 1 second for every answer";  
+    // }
+
     if (gameState.myLevel < 2) {
-        text = "Now you have 3 seconds for every answer";  
-    } else if (gameState.myLevel >= 2 && gameState.myLevel < 7) {
-        text = "Now you have 2 seconds for every answer";  
-    } else if (gameState.myLevel >= 7 && gameState.myLevel < 11) {
-        text = "Now you have 1.5 second for every answer";  
-    } else {
-        text = "Now you have 1 second for every answer";  
+
+        switch (levels[gameState.myLevel].timeMode) {
+            
+
+            case 'zen':
+                text = "Now you have 3 seconds for every answer";            
+                break;
+
+            case 'normal':
+                text = "Now you have 2 seconds for every answer";
+                break;
+
+            case 'crazy':
+                text = "Now you have 1.5 second for every answer";            
+                break;
+
+            case 'supercrazy':
+                text = "Now you have only 1 second for every answer";             
+                break;
+
+            case 'turbo':
+                text = "Now you have only 0.7 second for every answer";            
+                break;
+
+            default:
+                text = "Now you have 3 second for every answer";   
+        }
     }
     
     addLevelButton(gameBoard, text);
@@ -618,28 +662,15 @@ function showLevelsMenu() {
     document.getElementById("game").classList.add("hidden");
     document.getElementById("footer").classList.add("hidden");
     document.getElementById("levels").classList.remove("hidden");
+    loadMyData();
+    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
     drawLevelsMenu();
 }
 
 function drawLevelsMenu() {
-    
+    console.log("drawLevelsMenu: " + gameState.levelBestScores[gameState.myLevel]);
     clearBoard(levelBoard);
-    var numberOfButtonHere = 0;
-
-    // var newTable = document.createElement("table");
-    // newTable.id = "newTable";
-    // for (var i=0; i<6; i++) {
-    //     var tr = document.createElement("tr");
-    //     newTable.appendChild(tr);
-    //     for (var j=0; j<4; j++) {
-    //         var td = document.createElement("td");
-    //         addLevelsMenuButton(td, numberOfButtonHere);
-            
-    //         numberOfButtonHere++;
-    //         tr.appendChild(td);
-    //     }
-    // }
-    // levelBoard.appendChild(newTable);   
+    var numberOfButtonHere = 0;  
 
     var newGrid = document.createElement("ul");
     newGrid.id = "Grid";
@@ -682,7 +713,7 @@ function addLevelsMenuButton(parent, i) {
 
 
         gameState.myLevel = i;
-        levelDiv.innerHTML = gameState.myLevel;
+        levelDiv.innerHTML = gameState.myLevel + 1;
        
         startNewLevelButton();
     };
@@ -693,6 +724,9 @@ function levelFailed() {
     gameState.levelStarted = false;
     clearInterval(gameState.timeId);
     gameState.lastQuestion = [];
+    loadMyData();
+    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
+
 
     var text = "your score: " + gameState.levelScores[gameState.myLevel];
     
@@ -733,7 +767,6 @@ function levelFailed() {
     levelFailedButton.appendChild(goToMenuButton);
 
     gameBoard.appendChild(levelFailedButton);
-
 }
 
 function startNewLevel() {
@@ -749,37 +782,31 @@ function startNewLevel() {
     gamePlay();
 }
 
-
-
 function clearBoard(el) {
     while (el.firstChild) {
         el.removeChild(el.firstChild);
     }
 }
 
-
 function gamePlay() {
-    console.log("my level number: " + gameState.myLevel)
-    console.log("scores: " + gameState.levelBestScores);
-    console.log("current score: " + gameState.levelScores[gameState.myLevel]);
 
     trueButton.onclick = function() {
         if(gameState.levelStarted) {
-
-            // trueButton.style.backgroundColor = "#4f9b94";
-            // setTimeout(function() {
-            //             trueButton.style.backgroundColor = "#e91e63";
-            // }, 200)
 
             if (gameState.isEquationTrue) {
                 gameState.levelScores[gameState.myLevel]++;
                 gameState.thisQuestionNumber++;
                 scoreDiv.innerHTML = gameState.levelScores[gameState.myLevel];
+                if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
+                        gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
+                }
+                saveMyData();
                 startNewLevel();
             } else {
                 if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
-                        
                         gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
+                } else {
+                    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
                 }
                 gameState.timeScore[gameState.myLevel] = gameState.myTime;
                 saveMyData();
@@ -793,16 +820,23 @@ function gamePlay() {
 
             if (gameState.isEquationTrue) {
                 if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
-                    console.log("my score: " + gameState.levelBestScores[gameState.myLevel]);
+                    // console.log("my score: " + gameState.levelBestScores[gameState.myLevel]);
                     gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
+                } else {
+                    gameState.levelBestScores[gameState.myLevel] = gameState.levelBestScores[gameState.myLevel] || 0;
                 }
                 gameState.timeScore[gameState.myLevel] = gameState.myTime;
                 saveMyData();
+
                 levelFailed();
             } else {
                 gameState.levelScores[gameState.myLevel]++;
                 gameState.thisQuestionNumber++;
                 scoreDiv.innerHTML = gameState.levelScores[gameState.myLevel];
+                if (gameState.levelScores[gameState.myLevel] > gameState.levelBestScores[gameState.myLevel]) {
+                        gameState.levelBestScores[gameState.myLevel] = gameState.levelScores[gameState.myLevel];
+                }
+                saveMyData();
                 startNewLevel();
             }
         }
