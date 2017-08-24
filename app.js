@@ -491,7 +491,7 @@ function startTutorial() {
 				console.log("more than 5 good answers");
 				startNewLevelButton();
 			} else {
-				console.log(howManyGoodAnswers);
+				
 				clearBoard(gameBoard);
 				var tutorialText;
 			    tutorialText = document.createElement("div");
@@ -541,7 +541,7 @@ function startTutorial() {
 				clearBoard(gameBoard);
 				startNewLevelButton();
 			} else {
-				console.log(howManyGoodAnswers);
+				
 				clearBoard(gameBoard);
 				var tutorialText;
 			    tutorialText = document.createElement("div");
