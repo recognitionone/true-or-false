@@ -655,29 +655,26 @@ function drawLevelsMenu() {
 function addLevelsMenuButton(parent, i) {
     var br = document.createElement("br");
 
+    var numberOfThisLevel = i + 1; 
     var newButton;
     newButton = document.createElement("li");
     newButton.id = "menuButton";
-        var levelContent = document.createElement("div");
-        levelContent.id = "levelContent";
-        levelContent.classList.add("levelContent");
-        var levelNumber = document.createElement("div");
-        levelNumber.appendChild(document.createTextNode("level " + i));
-        levelContent.appendChild(levelNumber);
-        var bestScore = document.createElement("div");
-        bestScore.appendChild(document.createTextNode("best score: " + (gameState.levelBestScores[i] || 0)));
-        levelContent.appendChild(bestScore);
-        // levelContent.appendChild()
-        // levelContent.appendChild(document.createTextNode("level " + i + "&nbsp;"));
-            // var subLevelContent = document.createElement("div");
-        // levelContent.appendChild( document.createTextNode( '\u00A0' ) );
-            // var subLevelContent = document.createElement("div");
-            // subLevelContent.id = "subLevelContent";
-        // levelContent.appendChild(document.createElement("div").appendChild(
-        //     document.createTextNode("best score: " + (gameState.levelBestScores[i] || 0))));
-        // levelContent.appendChild(document.createTextNode("best score: " + (gameState.levelBestScores[i] || 0)));
-            // levelContent.appendChild(subLevelContent);
-        newButton.appendChild(levelContent);
+
+    var levelContent = document.createElement("div");
+    levelContent.id = "levelContent";
+    levelContent.classList.add("levelContent");
+    var levelNumber = document.createElement("div");
+    levelNumber.appendChild(document.createTextNode("level " + numberOfThisLevel));
+    levelContent.appendChild(levelNumber);
+    var bestScore = document.createElement("div");
+    bestScore.appendChild(document.createTextNode("best score: " + (gameState.levelBestScores[i] || 0)));
+    levelContent.appendChild(bestScore);
+    newButton.appendChild(levelContent);
+
+    if ( gameState.levelBestScores[i] > 0) {
+        newButton.style.backgroundColor = "#00897B";
+    }
+
     newButton.onclick = function () {
         document.getElementById("levels").classList.add("hidden");
         document.getElementById("game").classList.remove("hidden");

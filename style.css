@@ -2,6 +2,7 @@
 @viewport { width: 100vw ; min-zoom: 100% zoom: 100% ; }
 @-ms-viewport { user-zoom: fixed ; min-zoom: 100% ; }           
 @viewport { user-zoom: fixed ; min-zoom: 100% ; }
+/*no changes*/
 
 
 /* vietnamese */
@@ -109,7 +110,7 @@ ul, li {
 	width: 30%;
 	border-radius: 5%;
 	margin: 1%;
-	background-color: #9a9a9a;
+	background-color: #80cbc4;
 	overflow: hidden;
 }
 
@@ -162,7 +163,7 @@ ul, li {
 	display: table;
 	height: 84%;
 	top: 8%;
-	background-color: #80ccc4; 
+	background-color: #80cbc4; 
 	width: 47%;
 	border-style: none;
 	border-radius: 0.2em;
